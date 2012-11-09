@@ -1,0 +1,6 @@
+c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\tetris.exe
+c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\tetris.pdb
+c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\obj\x86\Debug\tetris.exe
+c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\obj\x86\Debug\tetris.pdb

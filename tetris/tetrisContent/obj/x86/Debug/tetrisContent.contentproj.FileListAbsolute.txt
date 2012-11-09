@@ -1,0 +1,1 @@
+c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetrisContent\obj\x86\Debug\ResolveAssemblyReference.cache

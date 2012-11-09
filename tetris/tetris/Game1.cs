@@ -22,6 +22,11 @@ namespace tetris
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
+            this.graphics.PreferredBackBufferWidth = 1024;
+            this.graphics.PreferredBackBufferHeight = 800;
+
+            this.graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
         }
 
@@ -67,7 +72,7 @@ namespace tetris
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if ( Keyboard.GetState().IsKeyDown(Keys.Escape) )
                 this.Exit();
 
             // TODO: Add your update logic here
