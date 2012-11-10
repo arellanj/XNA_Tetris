@@ -9,25 +9,36 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+
 namespace tetris
 {
     class Piece
     {
+
         Texture2D sprite;
         Vector2 pos;
-        double fall_rate;
-        enum Rot{left,right};
-        Piece()
+        enum orientation{up, down, left, right};
+        public Piece()
         {
 
         }
-        Piece(Texture2D sprite, Vector2 position){
+        public Piece(Texture2D sprite, Vector2 position){
             this.sprite = sprite;
             this.pos = position;
         }
-        void rotate(Rot rot)
-        {
 
+        public bool move(Vector2 direction)
+        {
+            if (CollisionCheck(direction) == true){
+                return false;
+            }
+            return true;
         }
+
+        public bool CollisionCheck(Vector2 direction)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
