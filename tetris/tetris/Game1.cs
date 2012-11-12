@@ -47,9 +47,14 @@ namespace tetris
             gameworld.gamesize = new Vector2(800, 600);
             gameworld.screenback = Content.Load<Texture2D>("Backgrounds\\Back");
             gameworld.gridback = Content.Load<Texture2D>("Backgrounds\\GameArea");
-            gameworld.testtxtr = Content.Load<Texture2D>("Shape Textures\\Bar");
-
-            block = Content.Load<Texture2D>("Shape Textures\\Z");
+            gameworld.block_tex[0] = Content.Load<Texture2D>("Shape Textures\\Box");
+            gameworld.block_tex[1] = Content.Load<Texture2D>("Shape Textures\\Bar");
+            gameworld.block_tex[2] = Content.Load<Texture2D>("Shape Textures\\Z");
+            gameworld.block_tex[3] = Content.Load<Texture2D>("Shape Textures\\S");
+            gameworld.block_tex[4] = Content.Load<Texture2D>("Shape Textures\\T");
+            gameworld.block_tex[5] = Content.Load<Texture2D>("Shape Textures\\L");
+            gameworld.block_tex[6] = Content.Load<Texture2D>("Shape Textures\\J");
+            
             base.Initialize();
         }
 
@@ -102,7 +107,6 @@ namespace tetris
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             gameworld.Draw(spriteBatch);
-            spriteBatch.Draw(block, new Rectangle(0,0,50,50), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }
