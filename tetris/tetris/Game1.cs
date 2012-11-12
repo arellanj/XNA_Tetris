@@ -47,6 +47,7 @@ namespace tetris
             gameworld.gamesize = new Vector2(800, 600);
             gameworld.screenback = Content.Load<Texture2D>("Backgrounds\\Back");
             gameworld.gridback = Content.Load<Texture2D>("Backgrounds\\GameArea");
+            gameworld.testtxtr = Content.Load<Texture2D>("Shape Textures\\Bar");
 
             block = Content.Load<Texture2D>("Shape Textures\\Z");
             base.Initialize();

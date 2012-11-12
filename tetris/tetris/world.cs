@@ -22,7 +22,14 @@ namespace tetris
         int gridunit;
         public ulong score;
         float speed;
+   
+        // for use in random piece creation
+        enum block { empty, BX, LN, Z, S, T, L, LF };
+        
+        List<Piece> worldpieces;
+        Piece activePiece;
 
+        public Texture2D testtxtr;
 
         public world()
         {
@@ -38,16 +45,40 @@ namespace tetris
         }
 
         public void Update(GameTime gameTime){
+            
+            moveDown(gameTime);
+        }
+        
+        private void moveDown(GameTime gameTime){
+        
+        }
+        public virtual void rotateRight()
+        {
 
         }
 
+        public virtual void rotateLeft()
+        {
+
+        }
         public void Draw(SpriteBatch SB)
         {
             SB.Draw(screenback, new Rectangle(0, 0, (int)gamesize.X, (int)gamesize.Y), Color.White);
 
             // temporary gameplace
-            SB.Draw(gridback, new Rectangle(((int)gamesize.X / 2) - (((int)gridsize.X * gridunit)/2) , 0,
+            int grid_x = ((int)gamesize.X / 2) - (((int)gridsize.X * gridunit)/2);
+            SB.Draw(gridback, new Rectangle( grid_x , 0,
                        ( (int)gridsize.X * gridunit ) , (int)gridsize.Y * gridunit ), Color.White);
+
+            // test output for grid
+            for (int i = 0; i < (int)gridsize.Y; i++ )
+            {
+                for (int j = 0; j < (int)gridsize.X; j++)
+                {
+                    SB.Draw(testtxtr, new Rectangle(grid_x + (j * gridunit), (i)*gridunit, 
+                                                     gridunit,gridunit), Color.White);
+                }
+            }
         }
         
     }

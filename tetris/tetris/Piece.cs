@@ -14,17 +14,17 @@ namespace tetris
 {
     class Piece
     {
-
-        Texture2D sprite;
+        Texture2D blocksprite;
         Vector2 pos;
-        enum orientation{up, down, left, right};
+        bool[,] shape;
         public Piece()
         {
 
         }
         public Piece(Texture2D sprite, Vector2 position){
-            this.sprite = sprite;
+            this.blocksprite = sprite;
             this.pos = position;
+            this.shape = new bool [4,4];
         }
 
         public bool move(Vector2 direction)
@@ -33,6 +33,11 @@ namespace tetris
                 return false;
             }
             return true;
+        }
+
+        public virtual void Draw(SpriteBatch sb)
+        {
+            return;
         }
 
         public bool CollisionCheck(Vector2 direction)
