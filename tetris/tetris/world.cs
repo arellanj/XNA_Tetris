@@ -16,9 +16,11 @@ namespace tetris
 {
     class world
     {
-        Texture2D gridback, screenback; 
-        Vector2 gridsize;
-        ulong score;
+        public Texture2D gridback, screenback;
+ 
+        public Vector2 gamesize,gridsize;
+        int gridunit;
+        public ulong score;
         float speed;
 
 
@@ -27,9 +29,10 @@ namespace tetris
             score = 0;
             speed = 1.0f;
         }
-        public world(int x, int y)
+        public world(int x, int y, int unit)
         {
             gridsize = new Vector2(x, y);
+            gridunit = unit;
             score = 0;
             speed = 1.0f;
         }
@@ -38,9 +41,13 @@ namespace tetris
 
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch SB)
         {
+            SB.Draw(screenback, new Rectangle(0, 0, (int)gamesize.X, (int)gamesize.Y), Color.White);
 
+            // temporary gameplace
+            SB.Draw(gridback, new Rectangle(((int)gamesize.X / 2) - (((int)gridsize.X * gridunit)/2) , 0,
+                       ( (int)gridsize.X * gridunit ) , (int)gridsize.Y * gridunit ), Color.White);
         }
         
     }

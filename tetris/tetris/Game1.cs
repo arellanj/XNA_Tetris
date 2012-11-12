@@ -18,15 +18,19 @@ namespace tetris
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        world gameworld;
+
+        // textures - test
+        Texture2D block;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
 
-            this.graphics.PreferredBackBufferWidth = 1024;
-            this.graphics.PreferredBackBufferHeight = 800;
+            this.graphics.PreferredBackBufferWidth = 800;
+            this.graphics.PreferredBackBufferHeight = 600;
 
-            this.graphics.IsFullScreen = true;
+            //this.graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
         }
 
@@ -39,7 +43,12 @@ namespace tetris
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            gameworld = new world(10, 11, 50);
+            gameworld.gamesize = new Vector2(800, 600);
+            gameworld.screenback = Content.Load<Texture2D>("Backgrounds\\Back");
+            gameworld.gridback = Content.Load<Texture2D>("Backgrounds\\GameArea");
 
+            block = Content.Load<Texture2D>("Shape Textures\\Z");
             base.Initialize();
         }
 
@@ -76,6 +85,7 @@ namespace tetris
                 this.Exit();
 
             // TODO: Add your update logic here
+            gameworld.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -89,7 +99,10 @@ namespace tetris
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            gameworld.Draw(spriteBatch);
+            spriteBatch.Draw(block, new Rectangle(0,0,50,50), Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

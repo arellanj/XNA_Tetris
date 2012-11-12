@@ -4,3 +4,12 @@ c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\obj\
 c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\obj\x86\Debug\tetris.exe
 c:\users\jonatan\documents\visual studio 2010\Projects\tetris\tetris\tetris\obj\x86\Debug\tetris.pdb
+C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Bar.xnb
+C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Box.xnb
+C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\J.xnb
+C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\L.xnb
+C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\S.xnb
+C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\T.xnb
+C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Z.xnb
+C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Backgrounds\Back.xnb
+C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Backgrounds\GameArea.xnb
