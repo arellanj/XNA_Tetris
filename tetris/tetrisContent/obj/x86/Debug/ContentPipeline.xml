@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Bar.xnb</Output>
-      <Time>2012-11-10T13:45:21.5511593-08:00</Time>
+      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Bar.xnb</Output>
+      <Time>2012-11-11T22:28:35.4312774-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\Box.png</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Box.xnb</Output>
-      <Time>2012-11-10T13:45:13.6047048-08:00</Time>
+      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Box.xnb</Output>
+      <Time>2012-11-11T22:28:35.4312774-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\J.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\J.xnb</Output>
-      <Time>2012-11-10T13:46:00.0233598-08:00</Time>
+      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\J.xnb</Output>
+      <Time>2012-11-11T22:28:35.4312774-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\L.png</Source>
@@ -34,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\L.xnb</Output>
-      <Time>2012-11-10T13:45:51.1608529-08:00</Time>
+      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\L.xnb</Output>
+      <Time>2012-11-11T22:28:35.4322775-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\S.png</Source>
@@ -43,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\S.xnb</Output>
-      <Time>2012-11-10T13:45:28.4025512-08:00</Time>
+      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\S.xnb</Output>
+      <Time>2012-11-11T22:28:35.4322775-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\T.png</Source>
@@ -52,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\T.xnb</Output>
-      <Time>2012-11-10T13:45:42.7623725-08:00</Time>
+      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\T.xnb</Output>
+      <Time>2012-11-11T22:28:35.4332775-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\Z.png</Source>
@@ -61,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Z.xnb</Output>
-      <Time>2012-11-10T13:45:35.5519601-08:00</Time>
+      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Z.xnb</Output>
+      <Time>2012-11-11T22:28:35.4332775-08:00</Time>
     </Item>
     <Item>
       <Source>Backgrounds\Back.png</Source>
@@ -70,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Backgrounds\Back.xnb</Output>
-      <Time>2012-11-10T15:59:21.2882264-08:00</Time>
+      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Backgrounds\Back.xnb</Output>
+      <Time>2012-11-11T22:28:35.4182767-08:00</Time>
     </Item>
     <Item>
       <Source>Backgrounds\GameArea.png</Source>
@@ -79,8 +79,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\Backgrounds\GameArea.xnb</Output>
-      <Time>2012-11-10T15:59:21.3038264-08:00</Time>
+      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Backgrounds\GameArea.xnb</Output>
+      <Time>2012-11-11T22:28:35.4192767-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -88,10 +88,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetrisContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetrisContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Jonatan\Documents\Visual Studio 2010\Projects\tetris\tetris\tetris\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>G:\Projects\Xna\Tetris\XNA\tetris\tetrisContent\</RootDirectory>
+      <LoggerRootDirectory>G:\Projects\Xna\Tetris\XNA\tetris\tetris\</LoggerRootDirectory>
+      <IntermediateDirectory>G:\Projects\Xna\Tetris\XNA\tetris\tetrisContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -120,7 +120,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2012-08-16T15:56:33.5184151-07:00</Value>
+        <Value>2011-11-04T00:12:33.2730368-07:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
