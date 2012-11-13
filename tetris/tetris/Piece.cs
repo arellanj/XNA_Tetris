@@ -14,27 +14,44 @@ namespace tetris
 {
     class Piece
     {
-        Texture2D blocksprite;
-        Vector2 pos;
-        bool[,] shape;
-        public Piece()
-        {
+        /*
+         * Variables
+         */
 
-        }
-        public Piece(Texture2D sprite, Vector2 position){
+        // texture that it will draw
+        Texture2D blocksprite;
+
+        // current position on the screen
+        Vector2 pos;
+
+        // used to determine shape of the block
+        // for now defaulted to 4x4 matrix
+        bool[,] shape;
+
+        /*
+         * Constructors
+         */
+         
+        public Piece(){}
+        public Piece(Texture2D sprite , Vector2 position){
             this.blocksprite = sprite;
             this.pos = position;
             this.shape = new bool [4,4];
         }
 
+        // changes position based on direction
+        // returns true for successfull movement
+        // NOTE : direction is assumed to NOT be normalized
         public bool move(Vector2 direction)
         {
             if (CollisionCheck(direction) == true){
                 return false;
             }
+            pos += direction;
             return true;
         }
 
+        // draws the piece to the screen
         public virtual void Draw(SpriteBatch sb)
         {
             return;

@@ -19,16 +19,13 @@ namespace tetris
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         world gameworld;
-
-        // textures - test
-        Texture2D block;
-
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
 
-            this.graphics.PreferredBackBufferWidth = 800;
-            this.graphics.PreferredBackBufferHeight = 600;
+            this.graphics.PreferredBackBufferWidth = 1024;
+            this.graphics.PreferredBackBufferHeight = 800;
 
             //this.graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
@@ -42,11 +39,22 @@ namespace tetris
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            gameworld = new world(10, 11, 50);
-            gameworld.gamesize = new Vector2(800, 600);
+            // Creates a new gameworld with a playable grid of size
+            // 10 columns by 11 rows
+            // each cell will be 50x50 pixels
+            gameworld = new world(13, 14, 55);
+
+            // passes tells the gameworld the size of the screen
+            gameworld.gamesize = new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight);
+
+            // load all the textures that will be used in the game
             gameworld.screenback = Content.Load<Texture2D>("Backgrounds\\Back");
             gameworld.gridback = Content.Load<Texture2D>("Backgrounds\\GameArea");
+
+            // NOTE :  the order here matters!
+            // it will be compared with the enumerated type blocks
+            // TODO : rename the textures to the color of the blocks instead of
+            //        using the name of the piece
             gameworld.block_tex[0] = Content.Load<Texture2D>("Shape Textures\\Box");
             gameworld.block_tex[1] = Content.Load<Texture2D>("Shape Textures\\Bar");
             gameworld.block_tex[2] = Content.Load<Texture2D>("Shape Textures\\Z");
@@ -93,6 +101,9 @@ namespace tetris
             // TODO: Add your update logic here
             gameworld.Update(gameTime);
 
+            // this is where I plan on adding the 
+            // kinect interface as input to the gameworld
+
             base.Update(gameTime);
         }
 
@@ -104,10 +115,13 @@ namespace tetris
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            // ALL DRAW FUNCTIONS MUST BE CALLED BETWEEN 
+            // SPRITEBATCH.BEGIN()
+            // AND SPRITEBATCH.END()
             spriteBatch.Begin();
             gameworld.Draw(spriteBatch);
             spriteBatch.End();
+
             base.Draw(gameTime);
         }
     }
