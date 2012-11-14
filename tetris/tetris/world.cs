@@ -87,6 +87,7 @@ namespace tetris
         // takes in a row index and returns true if the row is completed
         bool row_full( int row )
         {
+            
             foreach ( block b in blocks[row] ){
                 if (b == block.NONE) return false;
             }

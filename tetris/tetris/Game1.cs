@@ -19,15 +19,17 @@ namespace tetris
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         world gameworld;
-        
+
+        Texture2D style;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
 
-            this.graphics.PreferredBackBufferWidth = 1024;
-            this.graphics.PreferredBackBufferHeight = 800;
+            this.graphics.PreferredBackBufferWidth = 800;
+            this.graphics.PreferredBackBufferHeight = 600;
 
-            //this.graphics.IsFullScreen = false;
+            this.graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
         }
 
@@ -42,7 +44,7 @@ namespace tetris
             // Creates a new gameworld with a playable grid of size
             // 10 columns by 11 rows
             // each cell will be 50x50 pixels
-            gameworld = new world(13, 14, 55);
+            gameworld = new world(10, 11, 50);
 
             // passes tells the gameworld the size of the screen
             gameworld.gamesize = new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight);
@@ -62,7 +64,8 @@ namespace tetris
             gameworld.block_tex[4] = Content.Load<Texture2D>("Shape Textures\\T");
             gameworld.block_tex[5] = Content.Load<Texture2D>("Shape Textures\\L");
             gameworld.block_tex[6] = Content.Load<Texture2D>("Shape Textures\\J");
-            
+
+            style = Content.Load<Texture2D>("Textbox");
             base.Initialize();
         }
 
@@ -119,7 +122,15 @@ namespace tetris
             // SPRITEBATCH.BEGIN()
             // AND SPRITEBATCH.END()
             spriteBatch.Begin();
+            //gameworld.Draw(spriteBatch);
+            //spriteBatch.Draw(style,new Rectangle(0,0,800,600), Color.LawnGreen);
+            spriteBatch.End();
+
+
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
             gameworld.Draw(spriteBatch);
+            spriteBatch.Draw(style,new Rectangle(0,0,800,600), Color.Tomato);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
