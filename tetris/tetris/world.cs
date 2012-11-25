@@ -34,9 +34,9 @@ namespace tetris
         // current total score
         public ulong score;
 
-        // falling speed of the blocks
+        // falling speed of the blocks in steps per second
         // should probably change to int
-        float speed;
+        float step_time;
    
         // Types of blocks available for createon
         enum block { BX, LN, Z, S, T, L, LF, NONE };
@@ -48,37 +48,44 @@ namespace tetris
         // movable Piece that is added to blocks
         // when a collision is detected
         Piece activePiece;
+        bool isactive;
 
         // random number generator
         Random rand;
+
+        Vector2 startpos;
 
         //
         public world()
         {
             score = 0;
-            speed = 1.0f;
+            step_time = 1000.0f;
             rand = new Random();
         }
 
 
-        public world(int x, int y, int unit)
+        public world(int x, int y, int unit, Vector2 gamesize)
         {
             gridsize = new Vector2(x, y);
+            this.gamesize = gamesize;
             gridunit = unit;
             score = 0;
-            speed = 1.0f;
+            step_time = 1000.0f;
             rand = new Random();
             block_tex = new Texture2D[7];
             blocks = new block[y][];
 
+            startpos = new Vector2( ((int)this.gamesize.X / 2) - 2*unit,0 );
+            isactive = false;
 
+            
             // test to populate the playable area
             for (int i = 0; i < y; i++)
             {
                 blocks[i] = new block[x];
                 for (int j = 0; j < x; j++)
                 {
-                   blocks[i][j] = (block)rand.Next(8);
+                   blocks[i][j] = block.NONE;
                 }
             }
 
@@ -103,6 +110,13 @@ namespace tetris
         //     increasing  score
         public void Update(GameTime gameTime)
         {
+            if (isactive == false)
+            {
+                int piece = rand.Next(7);
+                activePiece = new Piece(piece, block_tex[piece],startpos);
+                isactive = true;
+                
+            }
             moveDown(gameTime);
 
             // NOTE: could possibly change to integers?
@@ -122,26 +136,54 @@ namespace tetris
                     {
                        blocks[i][j] = block.NONE ;
                     }
+                    for (int j = i; j > 0; j-- )
+                        swap_rows(j, j - 1);
 
                 }
             }
             score += (ulong)addedscore;
         }
+
+        void swap_rows(int index1, int index2)
+        {
+            block[] temp = blocks[index1];
+            blocks[index1] = blocks[index2];
+            blocks[index2] = temp;
+        }
         
         // moves down active Piece
-        private void moveDown(GameTime gameTime){
-        
+        float elapsed_t;
+        private void moveDown(GameTime gameTime)
+        {
+            elapsed_t += gameTime.ElapsedGameTime.Milliseconds;
+            if (elapsed_t > step_time)
+            {
+                elapsed_t = 0;
+                activePiece.move(new Vector2(0, gridunit));
+                activePiece.rotateLeft();
+
+            }
         }
 
         // Rotates activePiece
         // Note : can possibly merge rotations into one function
-        public virtual void rotateRight()
+        public void rotateRight()
         {
-
+            activePiece.rotateRight();
         }
-        public virtual void rotateLeft()
+        public void rotateLeft()
         {
+            activePiece.rotateLeft();
+        }
 
+        public void moveLeft()
+        {
+            activePiece.move(new Vector2(-gridunit, 0));
+        }
+        
+        public void moveRight()
+        {
+            activePiece.move(new Vector2(gridunit, 0));
         }
 
         public void Draw(SpriteBatch SB)
@@ -164,6 +206,8 @@ namespace tetris
                                                      gridunit,gridunit), Color.White);
                 }
             }
+
+            activePiece.Draw(SB, gridunit);
         }
         
     }

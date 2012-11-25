@@ -44,12 +44,21 @@ namespace tetris
             // Creates a new gameworld with a playable grid of size
             // 10 columns by 11 rows
             // each cell will be 50x50 pixels
-            gameworld = new world(10, 11, 50);
-
             // passes tells the gameworld the size of the screen
-            gameworld.gamesize = new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight);
+            gameworld = new world(10, 11, 50,new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight));
 
-            // load all the textures that will be used in the game
+           
+            base.Initialize();
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        protected override void LoadContent()
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);            // load all the textures that will be used in the game
             gameworld.screenback = Content.Load<Texture2D>("Backgrounds\\Back");
             gameworld.gridback = Content.Load<Texture2D>("Backgrounds\\GameArea");
 
@@ -66,17 +75,6 @@ namespace tetris
             gameworld.block_tex[6] = Content.Load<Texture2D>("Shape Textures\\J");
 
             style = Content.Load<Texture2D>("Textbox");
-            base.Initialize();
-        }
-
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
-        protected override void LoadContent()
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -100,7 +98,14 @@ namespace tetris
             // Allows the game to exit
             if ( Keyboard.GetState().IsKeyDown(Keys.Escape) )
                 this.Exit();
-
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            {
+               gameworld.rotateLeft();
+            } 
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            {
+                gameworld.rotateRight();
+            }
             // TODO: Add your update logic here
             gameworld.Update(gameTime);
 
@@ -116,22 +121,21 @@ namespace tetris
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // ALL DRAW FUNCTIONS MUST BE CALLED BETWEEN 
             // SPRITEBATCH.BEGIN()
             // AND SPRITEBATCH.END()
             spriteBatch.Begin();
-            //gameworld.Draw(spriteBatch);
+            gameworld.Draw(spriteBatch);
             //spriteBatch.Draw(style,new Rectangle(0,0,800,600), Color.LawnGreen);
             spriteBatch.End();
 
 
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.Additive);
-            gameworld.Draw(spriteBatch);
-            spriteBatch.Draw(style,new Rectangle(0,0,800,600), Color.Tomato);
+            //spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Additive);
+            //spriteBatch.Draw(style, new Rectangle(0, 0, 800, 600), Color.DarkGray);
 
-            spriteBatch.End();
+           // spriteBatch.End();
 
             base.Draw(gameTime);
         }
