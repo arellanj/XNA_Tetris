@@ -38,12 +38,10 @@ namespace tetris
         // should probably change to int
         float step_time;
    
-        // Types of blocks available for createon
-        enum block { BX, LN, Z, S, T, L, LF, NONE };
 
         // the texture grid 
         // will contain what texture goes in the block
-        block[][] blocks;
+        Piece.block[][] blocks;
 
         // movable Piece that is added to blocks
         // when a collision is detected
@@ -73,7 +71,7 @@ namespace tetris
             step_time = 1000.0f;
             rand = new Random();
             block_tex = new Texture2D[7];
-            blocks = new block[y][];
+            blocks = new Piece.block[y][];
 
             startpos = new Vector2( ((int)this.gamesize.X / 2) - 2*unit,0 );
             isactive = false;
@@ -82,10 +80,10 @@ namespace tetris
             // test to populate the playable area
             for (int i = 0; i < y; i++)
             {
-                blocks[i] = new block[x];
+                blocks[i] = new Piece.block[x];
                 for (int j = 0; j < x; j++)
                 {
-                   blocks[i][j] = block.NONE;
+                   blocks[i][j] = Piece.block.NONE;
                 }
             }
 
@@ -95,8 +93,8 @@ namespace tetris
         bool row_full( int row )
         {
             
-            foreach ( block b in blocks[row] ){
-                if (b == block.NONE) return false;
+            foreach ( Piece.block b in blocks[row] ){
+                if (b == Piece.block.NONE) return false;
             }
             return true;
         }
@@ -113,11 +111,13 @@ namespace tetris
             if (isactive == false)
             {
                 int piece = rand.Next(7);
-                activePiece = new Piece(piece, block_tex[piece],startpos);
+                activePiece = new Piece((Piece.block)piece, block_tex[piece],startpos);
                 isactive = true;
                 
             }
             moveDown(gameTime);
+            
+
 
             // NOTE: could possibly change to integers?
             float addedscore = 0;
@@ -134,7 +134,7 @@ namespace tetris
                     multiplier += .5f;
                     for (int j = 0; j < (int)gridsize.X; j++)
                     {
-                       blocks[i][j] = block.NONE ;
+                       blocks[i][j] = Piece.block.NONE ;
                     }
                     for (int j = i; j > 0; j-- )
                         swap_rows(j, j - 1);
@@ -146,7 +146,7 @@ namespace tetris
 
         void swap_rows(int index1, int index2)
         {
-            block[] temp = blocks[index1];
+            Piece.block[] temp = blocks[index1];
             blocks[index1] = blocks[index2];
             blocks[index2] = temp;
         }
@@ -159,8 +159,21 @@ namespace tetris
             if (elapsed_t > step_time)
             {
                 elapsed_t = 0;
-                activePiece.move(new Vector2(0, gridunit));
-                activePiece.rotateLeft();
+                Vector2 oldpos = activePiece.pos;
+                activePiece.move(new Vector2(0, gridunit)); 
+                switch (collision())
+                {
+                    case 1:
+                        activePiece.pos = oldpos;
+                        break;
+                    case 2:
+                        activePiece.pos = oldpos;
+                        addpiece();
+                        break;
+                    default:
+                        break;
+                }
+                //activePiece.rotateLeft();
 
             }
         }
@@ -209,6 +222,49 @@ namespace tetris
 
             activePiece.Draw(SB, gridunit);
         }
-        
+
+        private int collision()
+        {
+            // returns:
+            // 0  - no collision
+            // 1  - wall/ side collisions ** might need to change based on type of movement
+            // 2  - brick collisions in the gameworld or the bottom
+
+            // there is some terrible stuff happening here
+            //     it can probably be fixed by having active piece's position 
+            //     be updated through the index in the grid as opposed to by pixel
+            int X = ((int)activePiece.pos.X - (int)gridsize.X / 2) / gridunit + (int)activePiece.bounding_box.X;
+            int Y = ((int)activePiece.pos.Y - (int)gridsize.Y / 2) / gridunit + (int)activePiece.bounding_box.Y;
+            if ( X < 0 || X + activePiece.bounding_box.Width >= gridsize.X) 
+                return 1;
+            if (Y + activePiece.bounding_box.Height >= gridsize.Y) 
+                return 2;
+            for (int i = 0; i < (int)activePiece.bounding_box.Height; i++)
+            {
+                for (int j = 0; j < (int)activePiece.bounding_box.Width; j++)
+                {
+                    if( activePiece.shape[i,j] == 1 && blocks[Y+i][X+j] != Piece.block.NONE)
+                    return 2;
+                }
+            }
+                
+            return 0; 
+        }
+
+        private void addpiece()
+        {
+            int X = ((int)activePiece.pos.X - (int)gridsize.X/2) / gridunit + (int)activePiece.bounding_box.X;
+            int Y = ((int)activePiece.pos.Y - (int)gridsize.Y/2) / gridunit + (int)activePiece.bounding_box.Y;
+            for (int i = 0; i < (int)activePiece.bounding_box.Height; i++)
+            {
+                for (int j = 0; j < (int)activePiece.bounding_box.Width; j++)
+                {
+                    if (activePiece.shape[i, j] == 1){
+                    } blocks[Y + i][X + j] = activePiece.BLOCK;
+                }
+            }
+            isactive = false;
+        }
     }
+
 }

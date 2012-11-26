@@ -22,7 +22,7 @@ namespace tetris
         Texture2D blocksprite;
 
         // current position on the screen
-        Vector2 pos;
+        public Vector2 pos;
         Vector2 rotation_point;
 
         // boundingbox parameters
@@ -32,34 +32,39 @@ namespace tetris
         /*------------------
          * | 0 | 0 | 0 | 0 |
          * -----------------
-         * | 1 | 1 | 0 | 0 |
-         * -----------------
          * | 0 | 1 | 1 | 0 |
+         * -----------------
+         * | 0 | 0 | 1 | 1 |
          * -----------------
          * | 0 | 0 | 0 | 0 |
          * -----------------
-         * yelds : rectangle(0,1,3,2)
+         * yelds : rectangle(1,1,3,2)
          */
-        Rectangle bounding_box;
+        public Rectangle bounding_box;
 
 
         // used to determine shape of the block
         // for now defaulted to 4x4 matrix
         public int[,] shape;
 
+
+        // Types of blocks available for createon
+        public enum block { BX, LN, Z, S, T, L, LF, NONE };
+
         /*
          * Constructors
          */
-
+        public block BLOCK;
         public Piece()
         {
             this.shape = new int[4, 4];
         }
 
-        public Piece(int shape_index, Texture2D sprite , Vector2 position){
+        public Piece(block shape_index, Texture2D sprite , Vector2 position){
             this.blocksprite = sprite;
             this.pos = position;
-            this.shape = make_shape(shape_index);
+            this.BLOCK = shape_index;
+            this.shape = make_shape((int)shape_index);
             this.bounding_box = calculate_bounding_box();
 
         }
@@ -112,19 +117,22 @@ namespace tetris
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    if(shape[i,j] == 1)
-                        sb.Draw(blocksprite, new Rectangle((int)pos.X + j*num_pix,(int)pos.Y + i*num_pix,num_pix,num_pix),Color.White);
+                    if (shape[i, j] == 1)
+                    {
+                        sb.Draw(blocksprite, new Rectangle((int)pos.X + j * num_pix, (int)pos.Y + i * num_pix, num_pix, num_pix), Color.White);
+                    }
                 }
+
             }
-                return;
+            return;
         }
 
         private Rectangle calculate_bounding_box()
         {
-            int xmin = -1;
-            int xmax = 4;
-            int ymin = -1;
-            int ymax = 4;
+            int xmin = 4;
+            int xmax = -1;
+            int ymin = 4;
+            int ymax = -1;
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -135,14 +143,14 @@ namespace tetris
                             ymin = i;
                         if (i > ymax)
                             ymax = i;
-                        if (i < xmin)
-                            xmin = i;
-                        if (i > xmax)
-                            xmax = i;
+                        if (j < xmin)
+                            xmin = j;
+                        if (j > xmax)
+                            xmax = j;
                     }
                 }
             }
-            return new Rectangle(xmin, ymin, xmax - xmin, ymax - ymin);
+            return new Rectangle(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
         }
 
         public int[,] make_shape(int index)
