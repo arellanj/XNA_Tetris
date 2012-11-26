@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using Microsoft.Kinect;
+
 namespace tetris
 {
     /// <summary>
@@ -19,9 +21,10 @@ namespace tetris
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         world gameworld;
+        KinectSensor kinect;
 
         Texture2D style;
-
+        bool kinect_enable = false;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -47,7 +50,8 @@ namespace tetris
             // passes tells the gameworld the size of the screen
             gameworld = new world(10, 11, 50,new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight));
 
-           
+            if(kinect_enable)
+                kinect = KinectSensor.KinectSensors[0];
             base.Initialize();
         }
 
@@ -57,6 +61,12 @@ namespace tetris
         /// </summary>
         protected override void LoadContent()
         {
+
+            if (kinect_enable)
+            {
+                kinect.Start();
+                kinect.ElevationAngle = 20;
+            }
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);            // load all the textures that will be used in the game
             gameworld.screenback = Content.Load<Texture2D>("Backgrounds\\Back");
@@ -85,6 +95,7 @@ namespace tetris
         /// </summary>
         protected override void UnloadContent()
         {
+            if(kinect_enable)kinect.Stop();
             // TODO: Unload any non ContentManager content here
         }
 
@@ -93,18 +104,53 @@ namespace tetris
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        bool rpressed = false;
+        bool lpressed = false;
+        bool upressed = false;
+        bool dpressed = false;
+
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
             if ( Keyboard.GetState().IsKeyDown(Keys.Escape) )
                 this.Exit();
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && lpressed == false)
             {
-               gameworld.rotateLeft();
-            } 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                lpressed = true;
+                gameworld.moveLeft();
+            }
+            else
             {
+                lpressed = false;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rpressed == false)
+            {
+                rpressed = true;
+                gameworld.moveRight();
+            }
+            else
+            {
+                rpressed = false;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && upressed == false)
+            {
+                upressed = true;
+                gameworld.rotateLeft();
+            }
+            else
+            {
+                upressed = false;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && dpressed == false)
+            {
+                dpressed = true;
                 gameworld.rotateRight();
+            }
+            else
+            {
+                dpressed = false;
             }
             // TODO: Add your update logic here
             gameworld.Update(gameTime);

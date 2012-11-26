@@ -191,12 +191,22 @@ namespace tetris
 
         public void moveLeft()
         {
+            Vector2 oldpos = activePiece.pos;
             activePiece.move(new Vector2(-gridunit, 0));
+            if (collision() != 0)
+            {
+                activePiece.pos = oldpos;
+            }
         }
         
         public void moveRight()
         {
+            Vector2 oldpos = activePiece.pos;
             activePiece.move(new Vector2(gridunit, 0));
+            if (collision() != 0)
+            {
+                activePiece.pos = oldpos;
+            }
         }
 
         public void Draw(SpriteBatch SB)
@@ -233,17 +243,21 @@ namespace tetris
             // there is some terrible stuff happening here
             //     it can probably be fixed by having active piece's position 
             //     be updated through the index in the grid as opposed to by pixel
-            int X = ((int)activePiece.pos.X - (int)gridsize.X / 2) / gridunit + (int)activePiece.bounding_box.X;
-            int Y = ((int)activePiece.pos.Y - (int)gridsize.Y / 2) / gridunit + (int)activePiece.bounding_box.Y;
-            if ( X < 0 || X + activePiece.bounding_box.Width >= gridsize.X) 
+            // X - the x index in grid of the upper left x index in gamegrid that activePiece is in
+            // Y - the x index in grid of the upper left y index in gamegrid that activePiece is in
+            int grid_x = ((int)gamesize.X / 2) - (((int)gridsize.X * gridunit) / 2);
+            int X = (((int)activePiece.pos.X - grid_x) / gridunit) + (int)activePiece.bounding_box.X;
+            int Y = ((int)activePiece.pos.Y ) / gridunit + (int)activePiece.bounding_box.Y;
+
+            if ( X < 0 || X + activePiece.bounding_box.Width > gridsize.X) 
                 return 1;
-            if (Y + activePiece.bounding_box.Height >= gridsize.Y) 
+            if (Y + activePiece.bounding_box.Height > gridsize.Y) 
                 return 2;
             for (int i = 0; i < (int)activePiece.bounding_box.Height; i++)
             {
                 for (int j = 0; j < (int)activePiece.bounding_box.Width; j++)
                 {
-                    if( activePiece.shape[i,j] == 1 && blocks[Y+i][X+j] != Piece.block.NONE)
+                    if (activePiece.shape[(int)activePiece.bounding_box.Y + i, (int)activePiece.bounding_box.X+j] == 1 && blocks[Y + i][X + j] != Piece.block.NONE)
                     return 2;
                 }
             }
@@ -253,14 +267,18 @@ namespace tetris
 
         private void addpiece()
         {
-            int X = ((int)activePiece.pos.X - (int)gridsize.X/2) / gridunit + (int)activePiece.bounding_box.X;
-            int Y = ((int)activePiece.pos.Y - (int)gridsize.Y/2) / gridunit + (int)activePiece.bounding_box.Y;
+
+            int grid_x = ((int)gamesize.X / 2) - (((int)gridsize.X * gridunit) / 2);
+            int X = (((int)activePiece.pos.X - grid_x) / gridunit) + (int)activePiece.bounding_box.X;
+            int Y = ((int)activePiece.pos.Y) / gridunit + (int)activePiece.bounding_box.Y;
             for (int i = 0; i < (int)activePiece.bounding_box.Height; i++)
             {
                 for (int j = 0; j < (int)activePiece.bounding_box.Width; j++)
                 {
-                    if (activePiece.shape[i, j] == 1){
-                    } blocks[Y + i][X + j] = activePiece.BLOCK;
+                    if (activePiece.shape[(int)activePiece.bounding_box.Y + i, (int)activePiece.bounding_box.X + j] == 1)
+                    {
+                        blocks[Y + i][X + j] = activePiece.BLOCK;
+                    } 
                 }
             }
             isactive = false;
