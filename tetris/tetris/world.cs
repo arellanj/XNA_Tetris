@@ -53,6 +53,9 @@ namespace tetris
 
         Vector2 startpos;
 
+        // font
+        private SpriteFont scorefont;
+
         //
         public world()
         {
@@ -89,6 +92,25 @@ namespace tetris
 
         }
 
+        public void Load(ContentManager Content)
+        {
+            screenback = Content.Load<Texture2D>("Backgrounds\\Back");
+            gridback = Content.Load<Texture2D>("Backgrounds\\GameArea");
+
+            // NOTE :  the order here matters!
+            // it will be compared with the enumerated type blocks
+            // TODO : rename the textures to the color of the blocks instead of
+            //        using the name of the piece
+            block_tex[0] = Content.Load<Texture2D>("Shape Textures\\Box");
+            block_tex[1] = Content.Load<Texture2D>("Shape Textures\\Bar");
+            block_tex[2] = Content.Load<Texture2D>("Shape Textures\\Z");
+            block_tex[3] = Content.Load<Texture2D>("Shape Textures\\S");
+            block_tex[4] = Content.Load<Texture2D>("Shape Textures\\T");
+            block_tex[5] = Content.Load<Texture2D>("Shape Textures\\L");
+            block_tex[6] = Content.Load<Texture2D>("Shape Textures\\J");
+
+            scorefont = Content.Load<SpriteFont>("scoreFont");
+        }
         // takes in a row index and returns true if the row is completed
         bool row_full( int row )
         {
@@ -182,11 +204,26 @@ namespace tetris
         // Note : can possibly merge rotations into one function
         public void rotateRight()
         {
+            int[,] oldshape = activePiece.shape;
+            Rectangle oldBB = activePiece.bounding_box;
             activePiece.rotateRight();
+            if (collision() != 0)
+            {
+                activePiece.shape = oldshape;
+                activePiece.bounding_box = oldBB;
+            }
         }
         public void rotateLeft()
         {
+            int[,] oldshape = activePiece.shape;
+            Rectangle oldBB = activePiece.bounding_box;
+
             activePiece.rotateLeft();
+            if (collision() != 0)
+            {
+                activePiece.shape = oldshape;
+                activePiece.bounding_box = oldBB;
+            }
         }
 
         public void moveLeft()
@@ -230,7 +267,11 @@ namespace tetris
                 }
             }
 
+            // draws the active piece
             activePiece.Draw(SB, gridunit);
+
+            // draws the score
+            SB.DrawString(scorefont,"SCORE:"+score,new Vector2(0,0),Color.White);
         }
 
         private int collision()

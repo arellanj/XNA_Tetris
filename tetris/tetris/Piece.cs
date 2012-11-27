@@ -83,6 +83,10 @@ namespace tetris
         }
 
 
+
+        // Rotations, rotates the 4x4 matrix left or right
+        // NOTE: we can probably change this to rotate about a certain block instead of rotating the entire 4x4 matrix
+        //      this would make the rotations look nicer
         public void rotateLeft()
         {
             int[,] temp = new int[4, 4];
@@ -179,7 +183,7 @@ namespace tetris
                     rotation_point = new Vector2(2, 2);
                     break;
                 case 5:
-                    newshape = new int[4, 4] { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 } };
+                    newshape = new int[4, 4] { { 0, 1, 0, 0 }, { 0, 1, 0, 0 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 } };
                     rotation_point = new Vector2(2, 2);
                     break;
                 case 6:
