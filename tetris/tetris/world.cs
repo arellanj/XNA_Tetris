@@ -130,10 +130,18 @@ namespace tetris
         //     increasing  score
         public void Update(GameTime gameTime)
         {
+            if (game_lost())
+            {
+                reset();
+            }
+
             if (isactive == false)
             {
                 int piece = rand.Next(7);
-                activePiece = new Piece((Piece.block)piece, block_tex[piece],startpos);
+                activePiece = new Piece((Piece.block)piece, block_tex[piece], startpos);
+
+                Vector2 start_offset = new Vector2(0, activePiece.bounding_box.Y + activePiece.bounding_box.Height);
+                activePiece.move(-start_offset*gridunit);
                 isactive = true;
                 
             }
@@ -274,6 +282,22 @@ namespace tetris
             SB.DrawString(scorefont,"SCORE:"+score,new Vector2(0,0),Color.White);
         }
 
+        private void reset()
+        {
+            activePiece = new Piece();
+            isactive = false;
+
+            for (int i = 0; i < gridsize.Y; i++)
+            {
+                for (int j = 0; j < gridsize.X; j++)
+                {
+                    blocks[i][j] = Piece.block.NONE;
+                }
+            }
+
+            score = 0;
+        }
+
         private int collision()
         {
             // returns:
@@ -298,12 +322,24 @@ namespace tetris
             {
                 for (int j = 0; j < (int)activePiece.bounding_box.Width; j++)
                 {
-                    if (activePiece.shape[(int)activePiece.bounding_box.Y + i, (int)activePiece.bounding_box.X+j] == 1 && blocks[Y + i][X + j] != Piece.block.NONE)
-                    return 2;
+                    if (Y + i < gridsize.Y && Y + i >= 0 && X + j < gridsize.X && X + j >=0)
+                    {
+                        if (activePiece.shape[(int)activePiece.bounding_box.Y + i, (int)activePiece.bounding_box.X + j] == 1 && blocks[Y + i][X + j] != Piece.block.NONE)
+                            return 2;
+                    }
                 }
             }
                 
             return 0; 
+        }
+
+        private bool game_lost()
+        {
+            for (int i = 0; i < gridsize.X; i++)
+            {
+                if (blocks[0][i] != Piece.block.NONE) return true;
+            }
+            return false;
         }
 
         private void addpiece()
@@ -318,8 +354,11 @@ namespace tetris
                 {
                     if (activePiece.shape[(int)activePiece.bounding_box.Y + i, (int)activePiece.bounding_box.X + j] == 1)
                     {
-                        blocks[Y + i][X + j] = activePiece.BLOCK;
-                    } 
+                        if (Y + i < gridsize.Y && Y + i >= 0 && X + j < gridsize.X && X + j >= 0)
+                        {
+                            blocks[Y + i][X + j] = activePiece.BLOCK;
+                        }
+                    }
                 }
             }
             isactive = false;

@@ -187,7 +187,7 @@ namespace tetris
                     rotation_point = new Vector2(2, 2);
                     break;
                 case 6:
-                    newshape = new int[4, 4] { { 0, 0, 0, 0 }, { 0, 1, 1, 0 }, { 0, 1, 0, 0 }, { 0, 1, 0, 0 } };
+                    newshape = new int[4, 4] { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 1, 1, 0 }, { 0, 0, 0, 0 } };
                     rotation_point = new Vector2(2, 2);
                     break;
                 default:
