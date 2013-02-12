@@ -7,8 +7,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Bar.xnb</Output>
-      <Time>2012-11-11T22:28:35.4312774-08:00</Time>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Bar.xnb</Output>
+      <Time>2012-11-13T12:38:28.3416-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\Box.png</Source>
@@ -16,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Box.xnb</Output>
-      <Time>2012-11-11T22:28:35.4312774-08:00</Time>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Box.xnb</Output>
+      <Time>2012-11-13T12:38:28.3426-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\J.png</Source>
@@ -25,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\J.xnb</Output>
-      <Time>2012-11-11T22:28:35.4312774-08:00</Time>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\J.xnb</Output>
+      <Time>2012-11-13T12:38:28.3436-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\L.png</Source>
@@ -34,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\L.xnb</Output>
-      <Time>2012-11-11T22:28:35.4322775-08:00</Time>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\L.xnb</Output>
+      <Time>2012-11-13T12:38:28.3446-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\S.png</Source>
@@ -43,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\S.xnb</Output>
-      <Time>2012-11-11T22:28:35.4322775-08:00</Time>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\S.xnb</Output>
+      <Time>2012-11-13T12:38:28.3456-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\T.png</Source>
@@ -52,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\T.xnb</Output>
-      <Time>2012-11-11T22:28:35.4332775-08:00</Time>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\T.xnb</Output>
+      <Time>2012-11-13T12:38:28.3466-08:00</Time>
     </Item>
     <Item>
       <Source>Shape Textures\Z.png</Source>
@@ -61,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Z.xnb</Output>
-      <Time>2012-11-11T22:28:35.4332775-08:00</Time>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Z.xnb</Output>
+      <Time>2012-11-13T12:38:28.3476-08:00</Time>
     </Item>
     <Item>
       <Source>Backgrounds\Back.png</Source>
@@ -70,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Backgrounds\Back.xnb</Output>
-      <Time>2012-11-11T22:28:35.4182767-08:00</Time>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Backgrounds\Back.xnb</Output>
+      <Time>2012-11-13T12:38:28.3266-08:00</Time>
     </Item>
     <Item>
       <Source>Backgrounds\GameArea.png</Source>
@@ -79,8 +79,17 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\Backgrounds\GameArea.xnb</Output>
-      <Time>2012-11-11T22:28:35.4192767-08:00</Time>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Backgrounds\GameArea.xnb</Output>
+      <Time>2012-11-13T12:38:28.3286-08:00</Time>
+    </Item>
+    <Item>
+      <Source>scoreFont.spritefont</Source>
+      <Name>scoreFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\scoreFont.xnb</Output>
+      <Time>2012-11-26T13:41:03.9508-08:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -88,39 +97,39 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>G:\Projects\Xna\Tetris\XNA\tetris\tetrisContent\</RootDirectory>
-      <LoggerRootDirectory>G:\Projects\Xna\Tetris\XNA\tetris\tetris\</LoggerRootDirectory>
-      <IntermediateDirectory>G:\Projects\Xna\Tetris\XNA\tetris\tetrisContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>G:\Projects\Xna\Tetris\XNA\tetris\tetris\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetrisContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetrisContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
-        <Value>2010-08-23T12:41:18-07:00</Value>
+        <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
-        <Value>2010-08-23T12:41:18-07:00</Value>
+        <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
-        <Value>2010-08-23T12:41:18-07:00</Value>
+        <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
-        <Value>2010-08-23T12:41:18-07:00</Value>
+        <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
-        <Value>2010-08-23T12:41:18-07:00</Value>
+        <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
-        <Value>2010-08-23T12:41:18-07:00</Value>
+        <Value>2010-08-23T13:41:18-07:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2011-11-04T00:12:33.2730368-07:00</Value>
+        <Value>2012-11-05T20:13:45.3332-08:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>
