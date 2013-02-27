@@ -19,7 +19,7 @@ namespace tetris
          */
 
         // texture that it will draw
-        Texture2D blocksprite;
+        Color blockColor;
 
         // current position on the screen
         public Vector2 pos;
@@ -60,8 +60,8 @@ namespace tetris
             this.shape = new int[4, 4];
         }
 
-        public Piece(block shape_index, Texture2D sprite , Vector2 position){
-            this.blocksprite = sprite;
+        public Piece(block shape_index, Color blockColor , Vector2 position){
+            this.blockColor = blockColor;
             this.pos = position;
             this.BLOCK = shape_index;
             this.shape = make_shape((int)shape_index);
@@ -115,7 +115,7 @@ namespace tetris
         }
 
         // draws the piece to the screen
-        public virtual void Draw(SpriteBatch sb, int num_pix)
+        public virtual void Draw(SpriteBatch sb, int num_pix, Texture2D blocksprite)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -123,7 +123,7 @@ namespace tetris
                 {
                     if (shape[i, j] == 1)
                     {
-                        sb.Draw(blocksprite, new Rectangle((int)pos.X + j * num_pix, (int)pos.Y + i * num_pix, num_pix, num_pix), Color.White);
+                        sb.Draw(blocksprite, new Rectangle((int)pos.X + j * num_pix, (int)pos.Y + i * num_pix, num_pix, num_pix), blockColor);
                     }
                 }
 

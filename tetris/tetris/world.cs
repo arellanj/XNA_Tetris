@@ -21,7 +21,7 @@ namespace tetris
 
         // the different textures for the block types
         // size depends on the different number of blocks
-        public Texture2D [] block_tex;
+        public Texture2D block_tex;
         
         // gamesize - the length and height of the playable area in 
         //            pixels
@@ -73,7 +73,7 @@ namespace tetris
             score = 0;
             step_time = 1000.0f;
             rand = new Random();
-            block_tex = new Texture2D[7];
+   
             blocks = new Piece.block[y][];
 
             startpos = new Vector2( ((int)this.gamesize.X / 2) - 2*unit,0 );
@@ -101,13 +101,7 @@ namespace tetris
             // it will be compared with the enumerated type blocks
             // TODO : rename the textures to the color of the blocks instead of
             //        using the name of the piece
-            block_tex[0] = Content.Load<Texture2D>("Shape Textures\\Box");
-            block_tex[1] = Content.Load<Texture2D>("Shape Textures\\Bar");
-            block_tex[2] = Content.Load<Texture2D>("Shape Textures\\Z");
-            block_tex[3] = Content.Load<Texture2D>("Shape Textures\\S");
-            block_tex[4] = Content.Load<Texture2D>("Shape Textures\\T");
-            block_tex[5] = Content.Load<Texture2D>("Shape Textures\\L");
-            block_tex[6] = Content.Load<Texture2D>("Shape Textures\\J");
+            block_tex = Content.Load<Texture2D>("Shape Textures\\Bar");
 
             scorefont = Content.Load<SpriteFont>("scoreFont");
         }
@@ -138,7 +132,8 @@ namespace tetris
             if (isactive == false)
             {
                 int piece = rand.Next(7);
-                activePiece = new Piece((Piece.block)piece, block_tex[piece], startpos);
+                
+                activePiece = new Piece((Piece.block)piece, new Color(rand.Next(255), rand.Next(255), rand.Next(255) ), startpos);
 
                 Vector2 start_offset = new Vector2(0, activePiece.bounding_box.Y + activePiece.bounding_box.Height);
                 activePiece.move(-start_offset*gridunit);
@@ -282,13 +277,13 @@ namespace tetris
                 {
                     int index = (int)blocks[i][j];
                     if ( index >= 7 ) { continue; }
-                    SB.Draw(block_tex[ index ], new Rectangle(grid_x + (j * gridunit), (i)*gridunit, 
+                    SB.Draw(block_tex, new Rectangle(grid_x + (j * gridunit), (i)*gridunit, 
                                                      gridunit,gridunit), Color.White);
                 }
             }
 
             // draws the active piece
-            activePiece.Draw(SB, gridunit);
+            activePiece.Draw(SB, gridunit, block_tex);
 
             // draws the score
             SB.DrawString(scorefont,"SCORE:"+score,new Vector2(0,0),Color.White);

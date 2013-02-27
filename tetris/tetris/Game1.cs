@@ -41,7 +41,7 @@ namespace tetris
         Texture2D style;
 
         // debug
-        bool kinect_enable = true;     
+        bool kinect_enable = false;     
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
