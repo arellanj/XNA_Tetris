@@ -28,19 +28,3 @@ G:\Projects\Xna\Tetris\XNA\tetris\tetris\obj\x86\Debug\ResolveAssemblyReference.
 G:\Projects\Xna\Tetris\XNA\tetris\tetris\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 G:\Projects\Xna\Tetris\XNA\tetris\tetris\obj\x86\Debug\tetris.exe
 G:\Projects\Xna\Tetris\XNA\tetris\tetris\obj\x86\Debug\tetris.pdb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Bar.xnb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Box.xnb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\J.xnb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\L.xnb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\S.xnb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\T.xnb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Shape Textures\Z.xnb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Backgrounds\Back.xnb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\Backgrounds\GameArea.xnb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\tetris.exe
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\tetris.pdb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\obj\x86\Debug\tetris.exe
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\obj\x86\Debug\tetris.pdb
-C:\Users\Nine\Documents\Visual Studio 2010\Projects\Games\Tertis\tetris\tetris\bin\x86\Debug\Content\scoreFont.xnb

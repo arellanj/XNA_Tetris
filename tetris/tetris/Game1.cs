@@ -188,8 +188,7 @@ namespace tetris
             // this is where I plan on adding the 
             // kinect interface as input to the gameworld
 
-            
-            TrackClosestSkeleton();
+
 
             gameworld.Update(gameTime);
 
@@ -247,35 +246,6 @@ namespace tetris
             }
         }
 
-        private void TrackClosestSkeleton()
-        {
-            if (this.kinect != null && this.kinect.SkeletonStream != null)
-            {
-                if (!this.kinect.SkeletonStream.AppChoosesSkeletons)
-                {
-                    this.kinect.SkeletonStream.AppChoosesSkeletons = true; // Ensure AppChoosesSkeletons is set
-                }
-
-                float closestDistance = 10000f; // Start with a far enough distance
-                int closestID = 0;
-
-                if (playerData == null) return;
-                foreach (Skeleton skeleton in this.playerData.Where(s => s.TrackingState != SkeletonTrackingState.NotTracked))
-                {
-                    if (skeleton.Position.Z < closestDistance)
-                    {
-                        closestID = skeleton.TrackingId;
-                        closestDistance = skeleton.Position.Z;
-                    }
-                }
-
-                if (closestID > 0)
-                {
-                    this.kinect.SkeletonStream.ChooseSkeletons(closestID); // Track this skeleton
-                }
-            }
-        } 
-       
         bool[] getGestures(GameTime gameTime)
         {
 
