@@ -150,7 +150,7 @@ namespace tetris
 
 
             // NOTE: could possibly change to integers?
-            float addedscore = 0;
+            float addedscore = 0;   
             // more rows at a time give you a higher multiplier
             float multiplier = 1.0f;
 
@@ -243,7 +243,7 @@ namespace tetris
                 activePiece.pos = oldpos;
             }
         }
-        
+
         public void moveRight()
         {
             Vector2 oldpos = activePiece.pos;
@@ -252,6 +252,18 @@ namespace tetris
             {
                 activePiece.pos = oldpos;
             }
+        }
+
+        public void hardDrop()
+        {
+            Vector2 oldpos = activePiece.pos;
+            do
+            {
+                oldpos = activePiece.pos;
+                activePiece.move(new Vector2(0, gridunit));
+            } while (collision() != 2);
+            activePiece.pos = oldpos;
+            addpiece();
         }
 
         public void Draw(SpriteBatch SB)
@@ -302,30 +314,33 @@ namespace tetris
         {
             // returns:
             // 0  - no collision
-            // 1  - wall/ side collisions ** might need to change based on type of movement
+            // 1  - wall/ side collision 
             // 2  - brick collisions in the gameworld or the bottom
 
             // there is some terrible stuff happening here
             //     it can probably be fixed by having active piece's position 
             //     be updated through the index in the grid as opposed to by pixel
             // X - the x index in grid of the upper left x index in gamegrid that activePiece is in
-            // Y - the x index in grid of the upper left y index in gamegrid that activePiece is in
+            // Y - the y index in grid of the upper left y index in gamegrid that activePiece is in
             int grid_x = ((int)gamesize.X / 2) - (((int)gridsize.X * gridunit) / 2);
             int X = (((int)activePiece.pos.X - grid_x) / gridunit) + (int)activePiece.bounding_box.X;
             int Y = ((int)activePiece.pos.Y ) / gridunit + (int)activePiece.bounding_box.Y;
 
             if ( X < 0 || X + activePiece.bounding_box.Width > gridsize.X) 
-                return 1;
+                return 1; // collision with the sides of the game grid
+
             if (Y + activePiece.bounding_box.Height > gridsize.Y) 
-                return 2;
+                return 2; // Collision with the bottom of the game grid
+
             for (int i = 0; i < (int)activePiece.bounding_box.Height; i++)
             {
                 for (int j = 0; j < (int)activePiece.bounding_box.Width; j++)
                 {
+                    // if the index is inside a valix range
                     if (Y + i < gridsize.Y && Y + i >= 0 && X + j < gridsize.X && X + j >=0)
                     {
                         if (activePiece.shape[(int)activePiece.bounding_box.Y + i, (int)activePiece.bounding_box.X + j] == 1 && blocks[Y + i][X + j] != Piece.block.NONE)
-                            return 2;
+                            return 2; // collision with the inactive blocks
                     }
                 }
             }
@@ -354,6 +369,7 @@ namespace tetris
                 {
                     if (activePiece.shape[(int)activePiece.bounding_box.Y + i, (int)activePiece.bounding_box.X + j] == 1)
                     {
+                        // if the index is inside a valix range
                         if (Y + i < gridsize.Y && Y + i >= 0 && X + j < gridsize.X && X + j >= 0)
                         {
                             blocks[Y + i][X + j] = activePiece.BLOCK;

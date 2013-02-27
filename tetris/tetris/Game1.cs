@@ -30,17 +30,18 @@ namespace tetris
 
         float gesture_timer;
 
-        float p_lwrist, p_rwrist, v_lwrist, v_rwrist, p_lshoulder, p_rshoulder;
+        Vector3 p_lwrist, p_rwrist, v_lwrist, v_rwrist, p_lshoulder, p_rshoulder;
+        float vmax, vmin;
 
 
         // gestures      
-        enum gesture { left, right, rotateL, rotateR };
+        enum gesture { left, right, rotateL, rotateR, hdrop };
+        int numGestures = 5;
 
         Texture2D style;
 
         // debug
-        bool kinect_enable = true;
-        
+        bool kinect_enable = true;     
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -64,8 +65,9 @@ namespace tetris
             // 10 columns by 11 rows
             // each cell will be 50x50 pixels
             // passes tells the gameworld the size of the screen
-            gameworld = new world(10, 11, 50,new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight));
+            gameworld = new world(14, 15, 35,new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight));
             gesture_timer = 0;
+            vmax = vmin = 0;
             if(kinect_enable)
                 kinect = KinectSensor.KinectSensors[0];
             base.Initialize();
@@ -112,12 +114,15 @@ namespace tetris
         bool lpressed = false;
         bool upressed = false;
         bool dpressed = false;
+        bool spressed = false;
 
         protected override void Update(GameTime gameTime)
         {
             //
             // Keyboard INPUT
             //
+            // currently it uses only one keyboard state with no memory of its previouse state the workaround is to use a *pressed variable
+            // since it is using the kinect anyways, this code will be removed later
 
             // ESCAPE - Allows the game to exit
             if ( Keyboard.GetState().IsKeyDown(Keys.Escape) )
@@ -163,9 +168,20 @@ namespace tetris
                 dpressed = true;
                 gameworld.rotateRight();
             }
-            else if ( Keyboard.GetState().IsKeyUp(Keys.Down))
+            else if (Keyboard.GetState().IsKeyUp(Keys.Down))
             {
                 dpressed = false;
+            }
+            
+            // SPACE - Hard Drop
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && spressed == false)
+            {
+                spressed = true;
+                gameworld.hardDrop();
+            }
+            else if (Keyboard.GetState().IsKeyUp(Keys.Space))
+            {
+                spressed = false;
             }
 
             //
@@ -173,6 +189,7 @@ namespace tetris
             //
             if (kinect != null)
             {
+                // is there a better way to do this
                 bool[] gestures = getGestures(gameTime);
 
                 if (gestures[(int)gesture.left])
@@ -184,15 +201,9 @@ namespace tetris
                 if (gestures[(int)gesture.rotateR])
                     gameworld.rotateRight();
             }
-
-            // this is where I plan on adding the 
-            // kinect interface as input to the gameworld
-
-
+            
 
             gameworld.Update(gameTime);
-
-            
             base.Update(gameTime);
         }
 
@@ -208,16 +219,10 @@ namespace tetris
             // SPRITEBATCH.BEGIN()
             // AND SPRITEBATCH.END()
             spriteBatch.Begin();
+
             gameworld.Draw(spriteBatch);
-            //spriteBatch.Draw(style,new Rectangle(0,0,800,600), Color.LawnGreen);
+            
             spriteBatch.End();
-
-
-            //spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.Additive);
-            //spriteBatch.Draw(style, new Rectangle(0, 0, 800, 600), Color.DarkGray);
-
-           // spriteBatch.End();
-
             base.Draw(gameTime);
         }
     
@@ -248,69 +253,70 @@ namespace tetris
 
         bool[] getGestures(GameTime gameTime)
         {
+            //initialize  the return
+            Console.WriteLine("( {0} )", v_rwrist.Y);
+            Console.WriteLine(" Max = {0}, Min = {1}", vmax, vmin);
+            vmax = Math.Max(vmax, v_rwrist.Y);
+            vmin = Math.Min(vmin, v_rwrist.Y);
 
-            bool[] gestures = new bool[4]{false,false,false,false};
+            bool[] gestures = new bool[numGestures];
+            for (int i = 0; i < numGestures; i++)
+                gestures[i] = false;
+            // if there is no player present do not check the data
             if (player == null) return gestures;
-
-            if (gesture_timer >= 0)
-                gesture_timer -= gameTime.ElapsedGameTime.Milliseconds;
             
+            // only check for gestures when the timer is done
+            if (gesture_timer >= 0)
+            {
+                gesture_timer -= gameTime.ElapsedGameTime.Milliseconds;
+                return gestures;
+            }
+
+            // check all the joints in the player
             foreach (Joint j in player.Joints)
             {
                 if (j.JointType == JointType.ShoulderRight)
-                    p_rshoulder = j.Position.X;
+                    p_rshoulder = new Vector3(j.Position.X, j.Position.Y, j.Position.Z);
+
                 if (j.JointType == JointType.ShoulderLeft)
-                    p_lshoulder = j.Position.X;
+                    p_lshoulder = new Vector3(j.Position.X, j.Position.Y, j.Position.Z);
+
                 if (j.JointType == JointType.WristRight)
                 {
-                    v_rwrist = j.Position.X - p_rwrist;
-                    if (j.Position.X - p_rshoulder < 0)
+                    Vector3 joint = new Vector3(j.Position.X, j.Position.Y, j.Position.Z);
+                    v_rwrist = joint - p_rwrist; // update the wrists velocity
+                    if (joint.X - p_rshoulder.X < 0 && p_rshoulder.X - joint.X > distance_threshold)
                     {
-
-                        if (p_rshoulder - j.Position.X  > distance_threshold && gesture_timer <= 0)
-                        {
-                            gesture_timer = 300.0f;
-                            gestures[0] = true;
-                        }
-
+                        gesture_timer = 300.0f;
+                        gestures[(int)gesture.left] = true;
                     }
-                    else
+                    else if (joint.X - p_rshoulder.X > distance_threshold)
                     {
-                        if ( j.Position.X - p_rshoulder > distance_threshold && gesture_timer <= 0)
-                        {
-                            gesture_timer = 300.0f;
-                            gestures[1] = true;
-                        }
+                        gesture_timer = 300.0f;
+                        gestures[(int)gesture.right] = true;
                     }
-                   
-                    p_rwrist = j.Position.X;
+
+                    p_rwrist = joint;
                 }
                 if (j.JointType == JointType.WristLeft)
                 {
-                    v_lwrist = j.Position.X - p_lwrist;
-                    if (j.Position.X - p_lshoulder > 0)
-                    {
-                        if (j.Position.X - p_lshoulder > distance_threshold && gesture_timer <= 0)
-                        {
-                            gesture_timer = 300.0f;
-                            gestures[2] = true;
-                        }
-                        
-                    }
-                    else
-                    {
-                        if (p_lshoulder - j.Position.X > distance_threshold && gesture_timer <= 0)
-                        {
-                            gesture_timer = 300.0f;
-                            gestures[3] = true;
-                        }
-                    }
- 
+                    Vector3 joint = new Vector3(j.Position.X, j.Position.Y, j.Position.Z);
 
+                    v_lwrist = joint - p_lwrist; // update the wrists velocity
+                    if (joint.X - p_lshoulder.X > 0 && joint.X - p_lshoulder.X > distance_threshold)
+                    {
+                        gesture_timer = 300.0f;
+                        gestures[(int)gesture.rotateL] = true;
+                    }
+                    else if (p_lshoulder.X - joint.X > distance_threshold)
+                    {
+                        gesture_timer = 300.0f;
+                        gestures[(int)gesture.rotateR] = true;
+                    }
+                    p_lwrist = joint;
                 }
-              
-            }
 
+            }
             return gestures;
         }
     }
