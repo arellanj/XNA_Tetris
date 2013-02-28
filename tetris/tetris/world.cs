@@ -45,6 +45,9 @@ namespace tetris
         // level
         public int level;
 
+        // lines cleard
+        public int lines;
+
         // falling speed of the blocks in steps per second
         // should probably change to int
         float stepTime;
@@ -87,6 +90,7 @@ namespace tetris
             gridunit = unit;
             score = 0;
             level = 1;
+            lines = 0;
             stepTime = 1000.0f;
 
             paused = false;
@@ -191,12 +195,14 @@ namespace tetris
             int multiplier = 1;
 
             // Checks for completed rows
+            int clearedLines = 0;
             for (int i = 0; i < (int)gridsize.Y; i++)
             {
                 
                 if (row_full(i))
                 {
-                    addedscore += 100 * multiplier*level;
+                    clearedLines++;
+                    addedscore += ( 100  + 100*level) * multiplier;
                     multiplier += 2;
                     for (int j = 0; j < (int)gridsize.X; j++)
                     {
@@ -207,6 +213,7 @@ namespace tetris
 
                 }
             }
+            lines += clearedLines;
             score += (ulong)addedscore;
 
             check_level();
@@ -363,6 +370,10 @@ namespace tetris
 
             // draws the score
             SB.DrawString(scorefont, "SCORE:" + score, new Vector2(0, 0), Color.White);
+            // draws the level
+            SB.DrawString(scorefont, "LEVEL:" + level, new Vector2(0, 20), Color.White);
+            // draws the level
+            SB.DrawString(scorefont, "LINES CLEARED:" + lines, new Vector2(0, 40), Color.White);
 
             SB.End();
             if (give_warning)
@@ -403,6 +414,7 @@ namespace tetris
 
             score = 0;
             level = 1;
+            lines = 0;
             stepTime = 1000.0f;
         }
 
@@ -465,7 +477,7 @@ namespace tetris
         }
         private void check_level()
         {
-            if (score >(ulong) level * 1000)
+            if (lines > level * 5)
             {
                 level++;
                 stepTime *= 0.9f;
