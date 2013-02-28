@@ -22,6 +22,9 @@ namespace tetris
         // the different textures for the block types
         // size depends on the different number of blocks
         public Texture2D block_tex;
+
+        // warning textures;
+        public Texture2D border, warning;
         
         // gamesize - the length and height of the playable area in 
         //            pixels
@@ -31,12 +34,23 @@ namespace tetris
         // the size in pixels of each block
         int gridunit;
 
+        // warning system
+        bool give_warning;
+        float warningOffset; 
+        int warnalpha;
+
         // current total score
         public ulong score;
 
+        // level
+        public int level;
+
         // falling speed of the blocks in steps per second
         // should probably change to int
-        float step_time;
+        float stepTime;
+
+        // Pause boolean
+        bool paused;
    
 
         // the texture grid 
@@ -45,13 +59,14 @@ namespace tetris
 
         // movable Piece that is added to blocks
         // when a collision is detected
+        Piece nextPiece;
         Piece activePiece;
         bool isactive;
 
         // random number generator
         Random rand;
 
-        Vector2 startpos;
+        Vector2 startpos, shelfpos;
 
         // font
         private SpriteFont scorefont;
@@ -60,7 +75,7 @@ namespace tetris
         public world()
         {
             score = 0;
-            step_time = 1000.0f;
+            stepTime = 1000.0f;
             rand = new Random();
         }
 
@@ -71,13 +86,25 @@ namespace tetris
             this.gamesize = gamesize;
             gridunit = unit;
             score = 0;
-            step_time = 1000.0f;
+            level = 1;
+            stepTime = 1000.0f;
+
+            paused = false;
+
             rand = new Random();
    
             blocks = new Piece.block[y][];
 
-            startpos = new Vector2( ((int)this.gamesize.X / 2) - 2*unit,0 );
+            startpos = new Vector2( ((int)this.gamesize.X / 2) - 2*unit,2*unit );
+            shelfpos = new Vector2(0, 0);
             isactive = false;
+
+            int piece = rand.Next(7);
+            int r, g, b;
+            r = rand.Next(85, 255);
+            g = rand.Next(85, 255);
+            b = rand.Next(85, 255);
+            nextPiece = new Piece((Piece.block)piece, new Color(r, g, b), shelfpos);
 
             
             // test to populate the playable area
@@ -97,11 +124,10 @@ namespace tetris
             screenback = Content.Load<Texture2D>("Backgrounds\\Back");
             gridback = Content.Load<Texture2D>("Backgrounds\\GameArea");
 
-            // NOTE :  the order here matters!
-            // it will be compared with the enumerated type blocks
-            // TODO : rename the textures to the color of the blocks instead of
-            //        using the name of the piece
             block_tex = Content.Load<Texture2D>("Shape Textures\\Bar");
+            border = Content.Load<Texture2D>("bounds");
+            warning = Content.Load<Texture2D>("warnborder");
+
 
             scorefont = Content.Load<SpriteFont>("scoreFont");
         }
@@ -124,16 +150,31 @@ namespace tetris
         //     increasing  score
         public void Update(GameTime gameTime)
         {
+            if (paused) return;
+
             if (game_lost())
             {
                 reset();
             }
 
+            if (give_warning = warn_player())
+            {
+               
+                float sinval = (float)Math.Sin(gameTime.TotalGameTime.Milliseconds * 2*Math.PI / 1000);
+                warnalpha = (int) (255*(( sinval / 2) + 1));
+                
+            }
+            
             if (isactive == false)
             {
                 int piece = rand.Next(7);
-                
-                activePiece = new Piece((Piece.block)piece, new Color(rand.Next(255), rand.Next(255), rand.Next(255) ), startpos);
+                int r, g, b;
+                r = rand.Next(85,255);
+                g = rand.Next(85,255);
+                b = rand.Next(85, 255);
+                nextPiece.pos = startpos;
+                activePiece = nextPiece;
+                nextPiece = new Piece((Piece.block)piece, new Color(r, g, b), shelfpos);
 
                 Vector2 start_offset = new Vector2(0, activePiece.bounding_box.Y + activePiece.bounding_box.Height);
                 activePiece.move(-start_offset*gridunit);
@@ -145,9 +186,9 @@ namespace tetris
 
 
             // NOTE: could possibly change to integers?
-            float addedscore = 0;   
+            int addedscore = 0;   
             // more rows at a time give you a higher multiplier
-            float multiplier = 1.0f;
+            int multiplier = 1;
 
             // Checks for completed rows
             for (int i = 0; i < (int)gridsize.Y; i++)
@@ -155,8 +196,8 @@ namespace tetris
                 
                 if (row_full(i))
                 {
-                    addedscore += 100 * multiplier;
-                    multiplier += .5f;
+                    addedscore += 100 * multiplier*level;
+                    multiplier += 2;
                     for (int j = 0; j < (int)gridsize.X; j++)
                     {
                        blocks[i][j] = Piece.block.NONE ;
@@ -167,6 +208,9 @@ namespace tetris
                 }
             }
             score += (ulong)addedscore;
+
+            check_level();
+
         }
 
         void swap_rows(int index1, int index2)
@@ -181,7 +225,7 @@ namespace tetris
         private void moveDown(GameTime gameTime)
         {
             elapsed_t += gameTime.ElapsedGameTime.Milliseconds;
-            if (elapsed_t > step_time)
+            if (elapsed_t > stepTime)
             {
                 elapsed_t = 0;
                 Vector2 oldpos = activePiece.pos;
@@ -207,6 +251,7 @@ namespace tetris
         // Note : can possibly merge rotations into one function
         public void rotateRight()
         {
+            if (paused) return;
             int[,] oldshape = activePiece.shape;
             Rectangle oldBB = activePiece.bounding_box;
             activePiece.rotateRight();
@@ -218,6 +263,7 @@ namespace tetris
         }
         public void rotateLeft()
         {
+            if (paused) return;
             int[,] oldshape = activePiece.shape;
             Rectangle oldBB = activePiece.bounding_box;
 
@@ -231,6 +277,7 @@ namespace tetris
 
         public void moveLeft()
         {
+            if (paused) return;
             Vector2 oldpos = activePiece.pos;
             activePiece.move(new Vector2(-gridunit, 0));
             if (collision() != 0)
@@ -241,6 +288,7 @@ namespace tetris
 
         public void moveRight()
         {
+            if (paused) return;
             Vector2 oldpos = activePiece.pos;
             activePiece.move(new Vector2(gridunit, 0));
             if (collision() != 0)
@@ -251,6 +299,7 @@ namespace tetris
 
         public void hardDrop()
         {
+            if (paused) return;
             Vector2 oldpos = activePiece.pos;
             do
             {
@@ -261,32 +310,82 @@ namespace tetris
             addpiece();
         }
 
+        public void pause()
+        {
+            paused = !paused;
+        }
+
         public void Draw(SpriteBatch SB)
         {
-            SB.Draw(screenback, new Rectangle(0, 0, (int)gamesize.X, (int)gamesize.Y), Color.White);
+            int grid_x = ((int)gamesize.X / 2) - (((int)gridsize.X * gridunit) / 2);
+            int grid_y = 0;// ((int)gamesize.Y / 2) - (((int)gridsize.Y * gridunit) / 2);
 
-            // temporary gameplace
-            int grid_x = ((int)gamesize.X / 2) - (((int)gridsize.X * gridunit)/2);
-            SB.Draw(gridback, new Rectangle( grid_x , 0,
-                       ( (int)gridsize.X * gridunit ) , (int)gridsize.Y * gridunit ), Color.White);
+            SB.Begin();
+            {
+                SB.Draw(screenback, new Rectangle(0, 0, (int)gamesize.X, (int)gamesize.Y), Color.White);
+
+                // temporary gameplace
+                SB.Draw(gridback, new Rectangle(grid_x, grid_y,
+                       ((int)gridsize.X * gridunit), (int)gridsize.Y * gridunit), Color.White);
+            }
+            SB.End();
+
+            SB.Begin(SpriteSortMode.BackToFront, BlendState.Additive);
+            {
+                for (int i = 0; i < (int)gridsize.X; i++)
+                {
+                    SB.Draw(border, new Rectangle(grid_x + (i * gridunit), grid_y + (2) * gridunit,
+                                                     gridunit, gridunit), Color.White);
+                }
+            }
+            SB.End();
+
+            SB.Begin();
 
             // outputs the blocks in the back
-            for (int i = 0; i < (int)gridsize.Y; i++ )
+            for (int i = 0; i < (int)gridsize.Y; i++)
             {
                 for (int j = 0; j < (int)gridsize.X; j++)
                 {
                     int index = (int)blocks[i][j];
-                    if ( index >= 7 ) { continue; }
-                    SB.Draw(block_tex, new Rectangle(grid_x + (j * gridunit), (i)*gridunit, 
-                                                     gridunit,gridunit), Color.White);
+                    if (index >= 7) { continue; }
+                    SB.Draw(block_tex, new Rectangle(grid_x + (j * gridunit), grid_y + (i) * gridunit,
+                                                     gridunit, gridunit), Color.White);
                 }
             }
 
+
+
             // draws the active piece
             activePiece.Draw(SB, gridunit, block_tex);
+            // draws the active piece
+            nextPiece.Draw(SB, gridunit, block_tex);
 
             // draws the score
-            SB.DrawString(scorefont,"SCORE:"+score,new Vector2(0,0),Color.White);
+            SB.DrawString(scorefont, "SCORE:" + score, new Vector2(0, 0), Color.White);
+
+            SB.End();
+            if (give_warning)
+            {
+                SB.Begin(SpriteSortMode.BackToFront, BlendState.Additive);
+                {
+                    Color alpha = Color.White;
+                    alpha.A = (byte)warnalpha;
+                    SB.Draw(warning, new Rectangle(0, 0, (int)gamesize.X, (int)gamesize.Y), alpha);
+                }
+                SB.End();
+            }
+            if (paused)
+            {
+                SB.Begin();
+                {
+                    Color alpha = Color.Black;
+                    alpha.A = 200;
+                    SB.Draw(border, new Rectangle(0, 0, (int)gamesize.X, (int)gamesize.Y), alpha);
+                    SB.DrawString(scorefont, "PAUSED", new Vector2(gamesize.X / 2, gamesize.Y / 2), Color.White);
+                }
+                SB.End();
+            }
         }
 
         private void reset()
@@ -303,6 +402,8 @@ namespace tetris
             }
 
             score = 0;
+            level = 1;
+            stepTime = 1000.0f;
         }
 
         private int collision()
@@ -318,8 +419,9 @@ namespace tetris
             // X - the x index in grid of the upper left x index in gamegrid that activePiece is in
             // Y - the y index in grid of the upper left y index in gamegrid that activePiece is in
             int grid_x = ((int)gamesize.X / 2) - (((int)gridsize.X * gridunit) / 2);
+            int grid_y = 0; // ((int)gamesize.Y / 2) - (((int)gridsize.Y * gridunit) / 2);
             int X = (((int)activePiece.pos.X - grid_x) / gridunit) + (int)activePiece.bounding_box.X;
-            int Y = ((int)activePiece.pos.Y ) / gridunit + (int)activePiece.bounding_box.Y;
+            int Y = (((int)activePiece.pos.Y - grid_y) / gridunit) + (int)activePiece.bounding_box.Y;
 
             if ( X < 0 || X + activePiece.bounding_box.Width > gridsize.X) 
                 return 1; // collision with the sides of the game grid
@@ -347,17 +449,35 @@ namespace tetris
         {
             for (int i = 0; i < gridsize.X; i++)
             {
-                if (blocks[0][i] != Piece.block.NONE) return true;
+                if (blocks[2][i] != Piece.block.NONE) return true;
             }
             return false;
         }
 
+
+        private bool warn_player()
+        {
+            for (int i = 0; i < gridsize.X; i++)
+            {
+                if (blocks[3][i] != Piece.block.NONE) return true;
+            }
+            return false;
+        }
+        private void check_level()
+        {
+            if (score >(ulong) level * 1000)
+            {
+                level++;
+                stepTime *= 0.9f;
+            }
+        }
         private void addpiece()
         {
 
             int grid_x = ((int)gamesize.X / 2) - (((int)gridsize.X * gridunit) / 2);
+            int grid_y = 0;// ((int)gamesize.Y / 2) - (((int)gridsize.Y * gridunit) / 2);
             int X = (((int)activePiece.pos.X - grid_x) / gridunit) + (int)activePiece.bounding_box.X;
-            int Y = ((int)activePiece.pos.Y) / gridunit + (int)activePiece.bounding_box.Y;
+            int Y = (((int)activePiece.pos.Y - grid_y)) / gridunit + (int)activePiece.bounding_box.Y;
             for (int i = 0; i < (int)activePiece.bounding_box.Height; i++)
             {
                 for (int j = 0; j < (int)activePiece.bounding_box.Width; j++)
