@@ -47,8 +47,8 @@ namespace tetris
         {
             graphics = new GraphicsDeviceManager(this);
 
-            this.graphics.PreferredBackBufferWidth = 800;
-            this.graphics.PreferredBackBufferHeight = 600;
+            this.graphics.PreferredBackBufferWidth = 1280;
+            this.graphics.PreferredBackBufferHeight = 720;
 
             this.graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
@@ -66,7 +66,7 @@ namespace tetris
             // 10 columns by 11 rows
             // each cell will be 50x50 pixels
             // passes tells the gameworld the size of the screen
-            gameworld = new world(14, 15, 35,new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight));
+            gameworld = new world(14, 20, 35,new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight));
             gesture_timer = 0;
             vmax = vmin = 0;
             if(kinect_enable)
@@ -111,11 +111,16 @@ namespace tetris
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        /// 
+
+        // MUST CHANGE FOR KEYBOARD STUFF
         bool rpressed = false;
         bool lpressed = false;
         bool upressed = false;
         bool dpressed = false;
         bool spressed = false;
+        bool ppressed = false;
+        KeyboardState prev;
 
         protected override void Update(GameTime gameTime)
         {
@@ -130,61 +135,42 @@ namespace tetris
                 this.Exit();
 
             // LEFT - moves piece left
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && lpressed == false)
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && prev.IsKeyUp(Keys.Left))
             {
-                lpressed = true;
                 gameworld.moveLeft();
-            }
-            else if (Keyboard.GetState().IsKeyUp(Keys.Left))
-            {
-                lpressed = false;
             }
 
             
             // RIGHT - moves piece right
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rpressed == false)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && prev.IsKeyUp(Keys.Right))
             {
-                rpressed = true;
                 gameworld.moveRight();
-            }
-            else if (Keyboard.GetState().IsKeyUp(Keys.Right))
-            {
-                rpressed = false;
             }
             
             // UP - rotates clockwise
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && upressed == false)
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && prev.IsKeyUp(Keys.Up))
             {
-                upressed = true;
                 gameworld.rotateLeft();
-            }
-            else if (Keyboard.GetState().IsKeyUp(Keys.Up))
-            {
-                upressed = false;
             }
 
             // DOWN - rotates counter-clockwise
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && dpressed == false)
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && prev.IsKeyUp(Keys.Down))
             {
-                dpressed = true;
                 gameworld.rotateRight();
             }
-            else if (Keyboard.GetState().IsKeyUp(Keys.Down))
-            {
-                dpressed = false;
-            }
-            
+
             // SPACE - Hard Drop
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && spressed == false)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && prev.IsKeyUp(Keys.Space))
             {
-                spressed = true;
                 gameworld.hardDrop();
             }
-            else if (Keyboard.GetState().IsKeyUp(Keys.Space))
-            {
-                spressed = false;
-            }
 
+            // P - pause
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && prev.IsKeyUp(Keys.P))
+            {
+                gameworld.pause();
+            }
+            prev = Keyboard.GetState();
             //
             // Kinect Input
             //
@@ -219,11 +205,11 @@ namespace tetris
             // ALL DRAW FUNCTIONS MUST BE CALLED BETWEEN 
             // SPRITEBATCH.BEGIN()
             // AND SPRITEBATCH.END()
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
 
             gameworld.Draw(spriteBatch);
             
-            spriteBatch.End();
+            //spriteBatch.End();
             base.Draw(gameTime);
         }
     
