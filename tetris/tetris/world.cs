@@ -35,8 +35,7 @@ namespace tetris
         int gridunit;
 
         // warning system
-        bool give_warning;
-        float warningOffset; 
+        int warninglevel;
         int warnalpha;
 
         // current total score
@@ -161,10 +160,10 @@ namespace tetris
                 reset();
             }
 
-            if (give_warning = warn_player())
+            if ((warninglevel = warn_player()) != 0)
             {
                
-                float sinval = (float)Math.Sin(gameTime.TotalGameTime.Milliseconds * 2*Math.PI / 1000);
+                float sinval = (float)( (warninglevel/3.0) *Math.Sin(gameTime.TotalGameTime.Milliseconds * 2*Math.PI / 1000 ));
                 warnalpha = (int) (255*(( sinval / 2) + 1));
                 
             }
@@ -376,7 +375,7 @@ namespace tetris
             SB.DrawString(scorefont, "LINES CLEARED:" + lines, new Vector2(0, 40), Color.White);
 
             SB.End();
-            if (give_warning)
+            if (warninglevel != 0)
             {
                 SB.Begin(SpriteSortMode.BackToFront, BlendState.Additive);
                 {
@@ -393,7 +392,7 @@ namespace tetris
                     Color alpha = Color.Black;
                     alpha.A = 200;
                     SB.Draw(border, new Rectangle(0, 0, (int)gamesize.X, (int)gamesize.Y), alpha);
-                    SB.DrawString(scorefont, "PAUSED", new Vector2(gamesize.X / 2, gamesize.Y / 2), Color.White);
+                    SB.DrawString(scorefont, "PAUSED" , new Vector2(gamesize.X / 2, gamesize.Y / 2), Color.White);
                 }
                 SB.End();
             }
@@ -467,13 +466,17 @@ namespace tetris
         }
 
 
-        private bool warn_player()
+        private int warn_player()
         {
-            for (int i = 0; i < gridsize.X; i++)
+            for (int warninglevel = 3; warninglevel > 0; warninglevel--)
             {
-                if (blocks[3][i] != Piece.block.NONE) return true;
+                for (int i = 0; i < gridsize.X; i++)
+                {
+                    if (blocks[6-warninglevel][i] != Piece.block.NONE) return warninglevel;
+                }
             }
-            return false;
+
+            return 0;
         }
         private void check_level()
         {
