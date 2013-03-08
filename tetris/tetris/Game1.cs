@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -31,6 +32,7 @@ namespace tetris
         float gesture_timer;
 
         Vector3 p_lwrist, p_rwrist, v_lwrist, v_rwrist, p_lshoulder, p_rshoulder;
+        Vector3 hip_pos;
         float vmax, vmin;
 
 
@@ -41,7 +43,14 @@ namespace tetris
         Texture2D style;
 
         // debug
-        bool kinect_enable = false;     
+        bool kinect_enable = false;
+
+        // hand image
+        Texture2D hand;
+        Vector2 hand_r_pos;
+        Vector2 hand_l_pos;
+
+
         
         public Game1()
         {
@@ -69,6 +78,8 @@ namespace tetris
             gameworld = new world(14, 20, 35,new Vector2(this.graphics.PreferredBackBufferWidth, this.graphics.PreferredBackBufferHeight));
             gesture_timer = 0;
             vmax = vmin = 0;
+            hand_r_pos = Vector2.Zero;
+            hand_l_pos = Vector2.Zero;
             if(kinect_enable)
                 kinect = KinectSensor.KinectSensors[0];
             base.Initialize();
@@ -90,7 +101,7 @@ namespace tetris
             }
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);            // load all the textures that will be used in the game
-
+            hand = Content.Load<Texture2D>("hand");
             gameworld.Load(Content);
 
             // TODO: use this.Content to load your game content here
@@ -114,12 +125,6 @@ namespace tetris
         /// 
 
         // MUST CHANGE FOR KEYBOARD STUFF
-        bool rpressed = false;
-        bool lpressed = false;
-        bool upressed = false;
-        bool dpressed = false;
-        bool spressed = false;
-        bool ppressed = false;
         KeyboardState prev;
 
         protected override void Update(GameTime gameTime)
@@ -205,11 +210,13 @@ namespace tetris
             // ALL DRAW FUNCTIONS MUST BE CALLED BETWEEN 
             // SPRITEBATCH.BEGIN()
             // AND SPRITEBATCH.END()
-            //spriteBatch.Begin();
-
-            gameworld.Draw(spriteBatch);
             
-            //spriteBatch.End();
+            gameworld.Draw(spriteBatch);
+
+            spriteBatch.Begin();
+            spriteBatch.Draw(hand, new Rectangle(this.graphics.PreferredBackBufferWidth / 2 + (int)hand_r_pos.X, this.graphics.PreferredBackBufferHeight / 2 + (int)hand_r_pos.Y, 20, 20), Color.White);
+            spriteBatch.Draw(hand, new Rectangle(this.graphics.PreferredBackBufferWidth / 2 + (int)hand_l_pos.X, this.graphics.PreferredBackBufferHeight / 2 + (int)hand_l_pos.Y, 20, 20), Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     
@@ -301,6 +308,18 @@ namespace tetris
                         gestures[(int)gesture.rotateR] = true;
                     }
                     p_lwrist = joint;
+                }
+                if (j.JointType == JointType.HandRight)
+                {
+                    hand_r_pos = new Vector2(j.Position.X * this.graphics.PreferredBackBufferWidth - hip_pos.X, -j.Position.Y * this.graphics.PreferredBackBufferWidth + hip_pos.Y);
+                }
+                if (j.JointType == JointType.HandLeft)
+                {
+                    hand_l_pos = new Vector2(j.Position.X * this.graphics.PreferredBackBufferWidth - hip_pos.X, -j.Position.Y * this.graphics.PreferredBackBufferWidth + hip_pos.Y);
+                }
+                if(j.JointType == JointType.HipCenter)
+                {
+                    hip_pos = new Vector3(j.Position.X, j.Position.Y, j.Position.Z);
                 }
 
             }
