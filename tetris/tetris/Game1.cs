@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
+using KinectTracking;
 using Microsoft.Kinect;
 
 namespace tetris
@@ -24,9 +24,7 @@ namespace tetris
         world gameworld;
         
         // kinect variables
-        KinectSensor kinect;
-        Skeleton player;
-        Skeleton[] playerData;
+        Kinect kinect;
         float distance_threshold = .2f;
 
         float gesture_timer;
@@ -43,7 +41,7 @@ namespace tetris
         Texture2D style;
 
         // debug
-        bool kinect_enable = false;
+        bool kinect_enable = true;
 
         // hand image
         Texture2D hand;
@@ -61,6 +59,7 @@ namespace tetris
 
             this.graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
+            kinect = new Kinect();
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace tetris
             hand_r_pos = Vector2.Zero;
             hand_l_pos = Vector2.Zero;
             if(kinect_enable)
-                kinect = KinectSensor.KinectSensors[0];
+                kinect.initialize(10);
             base.Initialize();
         }
 
@@ -91,14 +90,6 @@ namespace tetris
         /// </summary>
         protected override void LoadContent()
         {
-
-            if (kinect != null)
-            {
-                kinect.SkeletonStream.Enable();
-                kinect.SkeletonFrameReady += new EventHandler<SkeletonFrameReadyEventArgs>(kinectSkeletonFrameReadyCallback);
-                kinect.Start();
-                kinect.ElevationAngle = 0;
-            }
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);            // load all the textures that will be used in the game
             hand = Content.Load<Texture2D>("hand");
@@ -113,7 +104,7 @@ namespace tetris
         /// </summary>
         protected override void UnloadContent()
         {
-            if(kinect_enable)kinect.Stop();
+            //if(kinect_enable)kinect.Stop();
             // TODO: Unload any non ContentManager content here
         }
 
@@ -220,31 +211,7 @@ namespace tetris
             base.Draw(gameTime);
         }
     
-        void kinectSkeletonFrameReadyCallback(object sender, SkeletonFrameReadyEventArgs skeletonFrames){
-            using (SkeletonFrame skeleton = skeletonFrames.OpenSkeletonFrame())
-            {
-                if (skeleton != null)
-                {
-                    if (playerData == null || this.playerData.Length != skeleton.SkeletonArrayLength)
-                    {
-                        this.playerData = new Skeleton[skeleton.SkeletonArrayLength];
-                    }
-                    skeleton.CopySkeletonDataTo(playerData);
-                }
-            }
-
-            if (playerData != null)
-            {
-                foreach (Skeleton skeleton in playerData)
-                {
-                    if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
-                    {
-                        player = skeleton;
-                    }
-                }
-            }
-        }
-
+        
         bool[] getGestures(GameTime gameTime)
         {
             //initialize  the return
@@ -257,7 +224,7 @@ namespace tetris
             for (int i = 0; i < numGestures; i++)
                 gestures[i] = false;
             // if there is no player present do not check the data
-            if (player == null) return gestures;
+            if (kinect.player == null) return gestures;
             
             // only check for gestures when the timer is done
             if (gesture_timer >= 0)
@@ -267,7 +234,7 @@ namespace tetris
             }
 
             // check all the joints in the player
-            foreach (Joint j in player.Joints)
+            foreach (Joint j in kinect.player.Joints)
             {
                 if (j.JointType == JointType.ShoulderRight)
                     p_rshoulder = new Vector3(j.Position.X, j.Position.Y, j.Position.Z);
@@ -299,12 +266,12 @@ namespace tetris
                     v_lwrist = joint - p_lwrist; // update the wrists velocity
                     if (joint.X - p_lshoulder.X > 0 && joint.X - p_lshoulder.X > distance_threshold)
                     {
-                        gesture_timer = 300.0f;
+                        gesture_timer = 400.0f;
                         gestures[(int)gesture.rotateL] = true;
                     }
                     else if (p_lshoulder.X - joint.X > distance_threshold)
                     {
-                        gesture_timer = 300.0f;
+                        gesture_timer = 400.0f;
                         gestures[(int)gesture.rotateR] = true;
                     }
                     p_lwrist = joint;
